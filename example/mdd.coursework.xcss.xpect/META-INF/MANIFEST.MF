@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Xpect
+Bundle-SymbolicName: mdd.coursework.xcss.xpect
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: mdd.coursework.xcss.xpect
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Require-Bundle: mdd.coursework.xcss;bundle-version="1.0.0",
+ mdd.coursework.xcss.ui;bundle-version="1.0.0",
+ org.eclipse.xpect.xtext.lib;bundle-version="0.2.0"

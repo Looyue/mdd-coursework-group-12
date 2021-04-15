@@ -1,0 +1,111 @@
+import mdd.coursework.xcss.validation.AbstractXcssValidator
+import mdd.coursework.xcss.xcss.Expression
+import mdd.coursework.xcss.xcss.CSSStyleValue
+import mdd.coursework.xcss.xcss.Multiplication
+import mdd.coursework.xcss.xcss.Addition
+import mdd.coursework.xcss.xcss.CSSStyleDelacration
+
+system mdd.coursework.xcss.typing.XCSSTypeSystem
+
+validatorExtends AbstractXcssValidator
+
+auxiliary {
+	valueType(Expression exp) : XCSSType cached
+}
+
+judgments {
+	type |- Expression exp : output XCSSType
+		cached
+		error "cannot type " + stringRep(exp)
+	reasonableType |- XCSSType left <: XCSSType right
+		error stringRep(left) + " is not a reasonable type "
+}
+
+auxiliary valueType(CSSStyleValue exp) {
+	val value = exp.value
+	val variable = exp.variable
+	if (value !== null) {
+		if (value.number !== null) {
+			return XCSSType.NUMBER
+		} else if (value.size !== null) {
+			return XCSSType.SIZE
+		} else {
+			return XCSSType.OTHERS
+		}
+	} else if (variable !== null) {
+		return variable.value.valueType
+	}
+}
+
+auxiliary valueType(Multiplication exp) {
+	val values = exp.right + #[exp.left]
+	var hasSize = false
+	var hasOthers = false
+	for(value: values) {
+		if (value instanceof CSSStyleValue) {
+			if (value.valueType === XCSSType.SIZE) {
+				hasSize = true
+			} else if (value.valueType === XCSSType.OTHERS) {
+				hasOthers = true
+			}
+		} else {
+			if ((value as Addition).valueType === XCSSType.SIZE) {
+				hasSize = true
+			} else if ((value as Addition).valueType === XCSSType.OTHERS) {
+				hasOthers = true
+			}
+		}
+	}
+	if (hasOthers) {
+		return XCSSType.OTHERS
+	} else if (hasSize) {
+		return XCSSType.SIZE
+	} else {
+		return XCSSType.NUMBER
+	}
+}
+
+auxiliary valueType(Addition exp) {
+	if ((exp.left as Multiplication).valueType === XCSSType.NUMBER) {
+		return XCSSType.NUMBER
+	} else if ((exp.left as Multiplication).valueType === XCSSType.SIZE) {
+		return XCSSType.SIZE
+	} else {
+		return XCSSType.OTHERS
+	}
+}
+
+rule TCSSStyleValue
+	G |- CSSStyleValue exp : XCSSType t
+from {
+	t = exp.valueType
+}
+
+rule TMultiplication
+	G |- Multiplication exp : XCSSType t
+from {
+	t = exp.valueType
+}
+
+rule TAddition
+	G |- Addition exp : XCSSType t
+from {
+	t = exp.valueType
+}
+
+rule ReasonableTyping
+	G |- XCSSType left <: XCSSType right
+from {
+	left === right || left === XCSSType.OTHERS
+}
+
+checkrule checkZIndexValue for
+	CSSStyleDelacration sd
+from {
+	if (sd.cssStyleKey.value.equals('z-index')) {
+		empty |- sd.cssStyleValue : var XCSSType type
+		empty |- type <: XCSSType.NUMBER
+	} else {
+		true
+	}
+}

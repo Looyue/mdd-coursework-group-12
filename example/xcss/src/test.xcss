@@ -1,0 +1,14 @@
+$color = #ffffff
+$pixel = 1px
+$size = $pixel * 2
+$zIndex = 10
+
+html, body:hover
+	$color = #000000
+	height: 10px
+	color: $color
+	width: $size
+	
+.header
+	z-index: $zIndex
+	

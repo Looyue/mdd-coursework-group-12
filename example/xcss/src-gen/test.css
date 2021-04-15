@@ -1,0 +1,9 @@
+html, body:hover {
+	height: 10px;
+	color: #000000;
+	width: 2.0px;
+}
+
+.header {
+	z-index: 10;
+}

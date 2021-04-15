@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: mdd.coursework.xcss
+Bundle-ManifestVersion: 2
+Bundle-Name: mdd.coursework.xcss
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: mdd.coursework.xcss; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ it.xsemantics.runtime;bundle-version="1.10.2"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: mdd.coursework.xcss.xcss.util,
+ mdd.coursework.xcss,
+ mdd.coursework.xcss.services,
+ mdd.coursework.xcss.scoping,
+ mdd.coursework.xcss.parser.antlr,
+ mdd.coursework.xcss.xcss,
+ mdd.coursework.xcss.xcss.impl,
+ mdd.coursework.xcss.parser.antlr.internal,
+ mdd.coursework.xcss.serializer,
+ mdd.coursework.xcss.generator,
+ mdd.coursework.xcss.validation,
+ mdd.coursework.xcss.parser.antlr.lexer
+Import-Package: org.apache.log4j

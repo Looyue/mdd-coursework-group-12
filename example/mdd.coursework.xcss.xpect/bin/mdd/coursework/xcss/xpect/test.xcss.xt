@@ -1,0 +1,16 @@
+/*XPECT_SETUP mdd.coursework.xcss.xpect.XPectTests END_SETUP*/
+$color = #ffffff
+$pixel = 1px
+$size = $pixel * 2
+
+html, body:hover
+	$color = #000000
+	height: 10px
+	color: $color
+	width: $size
+	
+.header
+	color: #ffffff
+	z-index: 1
+*
+	color: $color
